@@ -24,23 +24,23 @@ class TaskList {
     }
   }
 
-  // Quita el nodo con ese id. Devuelve true si lo encontró y borró.
+
   removeTask(id: number): boolean {
     if (this.head === null) {
       return false; // lista vacía
     }
 
-    // Caso: borrar la cabeza
+
     if (this.head.id === id) {
       this.head = this.head.next;
       if (this.head === null) {
-        // Si se vació la lista, tail también debe ser null
+
         this.tail = null;
       }
       return true;
     }
 
-    // Caso general: buscar con puntero previo
+
     let prev: TaskNode | null = this.head;
     let curr: TaskNode | null = this.head.next;
 
@@ -48,7 +48,7 @@ class TaskList {
       if (curr.id === id) {
         prev!.next = curr.next;
         if (curr === this.tail) {
-          this.tail = prev; // si era el último, mover tail
+          this.tail = prev;
         }
         return true;
       }
@@ -56,7 +56,7 @@ class TaskList {
       curr = curr.next;
     }
 
-    return false; // no se encontró
+    return false;
   }
 
   listTasks(): void {
@@ -72,7 +72,7 @@ class TaskList {
     }
   }
 
-  // Alterna el completed de la tarea con ese id. Devuelve el nuevo estado o false si no existe.
+
   updateTask(id: number): boolean {
     if (this.head === null) {
       console.error('La lista está vacía');
@@ -93,7 +93,7 @@ class TaskList {
   }
 }
 
-// --- Ejemplo rápido de uso ---
+// Pruebas Rápidas
 const list = new TaskList();
 list.addTask('Primer tarea', false);
 list.listTasks();
