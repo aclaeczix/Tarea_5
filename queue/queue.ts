@@ -9,12 +9,12 @@ export class Queue {
     this.tail = null;
   }
 
-  // Agregar un valor al final de la cola
+
   enqueue(value: number): void {
     const nuevo = new Node(value);
 
     if (this.tail === null) {
-      // Si está vacía, head y tail son el mismo
+
       this.head = nuevo;
       this.tail = nuevo;
     } else {
@@ -23,23 +23,23 @@ export class Queue {
     }
   }
 
-  // Sacar el primer valor de la cola
+
   dequeue(): number | null {
     if (this.head === null) {
-      return null; // Cola vacía
+      return null;
     }
 
     const valor = this.head.value;
     this.head = this.head.next;
 
     if (this.head === null) {
-      this.tail = null; // Si quedó vacía
+      this.tail = null;
     }
 
     return valor;
   }
 
-  // Mostrar todos los elementos
+
   list(): void {
     let actual = this.head;
     while (actual !== null) {
@@ -48,3 +48,16 @@ export class Queue {
     }
   }
 }
+//  Pruebas Rápidas
+const q = new Queue();
+q.enqueue(10);
+q.enqueue(20);
+q.enqueue(30);
+
+console.log("Contenido de la cola:");
+q.list();
+
+console.log("Elemento quitado:", q.dequeue());
+
+console.log("Cola después de un dequeue:");
+q.list();
