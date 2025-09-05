@@ -1,17 +1,36 @@
 import { Node } from "./node";
 
-class Stack {
+export class Stack {
   head: Node | null;
-  tail: Node | null;
 
   constructor() {
     this.head = null;
-    this.tail = null;
   }
 
-  push(value) {}
+  // Agregar al inicio (tope de la pila)
+  push(value: number): void {
+    const nuevo = new Node(value);
+    nuevo.next = this.head; // el nuevo apunta al que era el tope
+    this.head = nuevo;      // ahora el nuevo es el tope
+  }
 
-  pop(): Node {}
+  // Sacar y devolver el valor del tope
+  pop(): number | null {
+    if (this.head === null) {
+      return null; // pila vacía
+    }
 
-  list(): void {}
+    const valor = this.head.value;
+    this.head = this.head.next; // mover el tope al siguiente
+    return valor;
+  }
+
+  // Mostrar todos los elementos (del tope hacia abajo)
+  list(): void {
+    let actual = this.head;
+    while (actual !== null) {
+      console.log(actual.value);
+      actual = actual.next;
+    }
+  }
 }
