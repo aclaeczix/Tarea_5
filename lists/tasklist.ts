@@ -12,13 +12,10 @@ class TaskList {
   }
 
   addTask(title: string, completed = false) {
-    // Crear nodo.
     const newNode = new TaskNode(this.idCounter, title, completed);
-    // Actualizar contador.
     this.idCounter = this.idCounter + 1;
 
     if (this.head === null) {
-      // la lista está vacía.
       this.head = newNode;
       this.tail = this.head;
     } else {
@@ -27,7 +24,40 @@ class TaskList {
     }
   }
 
-  removeTask(id: number): boolean { return false; }
+  // Quita el nodo con ese id. Devuelve true si lo encontró y borró.
+  removeTask(id: number): boolean {
+    if (this.head === null) {
+      return false; // lista vacía
+    }
+
+    // Caso: borrar la cabeza
+    if (this.head.id === id) {
+      this.head = this.head.next;
+      if (this.head === null) {
+        // Si se vació la lista, tail también debe ser null
+        this.tail = null;
+      }
+      return true;
+    }
+
+    // Caso general: buscar con puntero previo
+    let prev: TaskNode | null = this.head;
+    let curr: TaskNode | null = this.head.next;
+
+    while (curr !== null) {
+      if (curr.id === id) {
+        prev!.next = curr.next;
+        if (curr === this.tail) {
+          this.tail = prev; // si era el último, mover tail
+        }
+        return true;
+      }
+      prev = curr;
+      curr = curr.next;
+    }
+
+    return false; // no se encontró
+  }
 
   listTasks(): void {
     if (this.head === null) {
@@ -36,60 +66,41 @@ class TaskList {
     }
 
     let current: TaskNode | null = this.head;
-
     while (current !== null) {
       console.log(`${current.id} - ${current.title}: ${current.completed}`);
       current = current.next;
     }
   }
 
+  // Alterna el completed de la tarea con ese id. Devuelve el nuevo estado o false si no existe.
   updateTask(id: number): boolean {
-    // buscar la lista
-    try {
-      if (this.head === null) {
-        throw new Error('La lista está vacía');
-      }
-
-      let current: TaskNode | null = this.head;
-
-      while (current !== null) {
-        if (current.id === id) {
-          // if (current.completed) {
-          //   current.completed = false;
-          // } else {
-          //   current.completed = true;
-          // }
-          current.completed = current.completed ? false: true;
-          // current.completed = current.completed!
-          return current.completed;
-        }
-        current = current.next;
-      }
-
-      throw new Error("No se encontró el elemento");
-      return false;
-    } catch (error) {
-      console.error(error);
+    if (this.head === null) {
+      console.error('La lista está vacía');
       return false;
     }
+
+    let current: TaskNode | null = this.head;
+    while (current !== null) {
+      if (current.id === id) {
+        current.completed = current.completed ? false : true;
+        return current.completed;
+      }
+      current = current.next;
+    }
+
+    console.error('No se encontró el elemento');
+    return false;
   }
 }
 
-// 1. Crear la lista
+// --- Ejemplo rápido de uso ---
 const list = new TaskList();
-
-// 2. Agregar la primer tarea.
 list.addTask('Primer tarea', false);
-// 3. Listar  (se debe ver 1 sola tarea).
-list.listTasks();  // '1 - Primer tarea - false'
-// 4. Agregar 2 tareas.
+list.listTasks();
 console.log('-----');
 list.addTask('Segunda tarea');
 list.addTask('Lavar los trastes');
-// 5. Listar (se deben ver 3 tareas).
 list.listTasks();
-// 6. Actualizar tarea
 list.updateTask(2);
-// 7. listar 
 console.log('-----');
 list.listTasks();
