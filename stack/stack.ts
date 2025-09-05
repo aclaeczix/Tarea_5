@@ -7,25 +7,25 @@ export class Stack {
     this.head = null;
   }
 
-  // Agregar al inicio (tope de la pila)
+
   push(value: number): void {
     const nuevo = new Node(value);
-    nuevo.next = this.head; // el nuevo apunta al que era el tope
-    this.head = nuevo;      // ahora el nuevo es el tope
+    nuevo.next = this.head;
+    this.head = nuevo;
   }
 
-  // Sacar y devolver el valor del tope
+
   pop(): number | null {
     if (this.head === null) {
-      return null; // pila vacía
+      return null;
     }
 
     const valor = this.head.value;
-    this.head = this.head.next; // mover el tope al siguiente
+    this.head = this.head.next;
     return valor;
   }
 
-  // Mostrar todos los elementos (del tope hacia abajo)
+
   list(): void {
     let actual = this.head;
     while (actual !== null) {
@@ -34,3 +34,17 @@ export class Stack {
     }
   }
 }
+
+// Pruebas Rápidas
+const s = new Stack();
+s.push(1);
+s.push(2);
+s.push(3);
+
+console.log("Contenido de la pila:");
+s.list();
+
+console.log("Elemento quitado:", s.pop());
+
+console.log("Pila después de un pop:");
+s.list();
